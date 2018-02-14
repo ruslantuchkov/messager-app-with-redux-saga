@@ -1,6 +1,6 @@
 import React from 'react';
 import ChannelList from './components/ChannelList';
-import Chat from './components/Chat';
+import ChannelContent from './components/ChannelContent';
 import CurrentUser from './components/CurrentUser';
 import ContactList from './components/ContactList';
 
@@ -9,7 +9,7 @@ const App = () => {
     <div>
       <h1>Redux Messenger </h1>
       <ChannelList />
-      <Chat />
+      <ChannelContent />
       <CurrentUser />
       <ContactList />
     </div>
