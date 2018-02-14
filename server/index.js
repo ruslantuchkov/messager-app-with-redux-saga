@@ -1,47 +1,31 @@
 import http from 'http';
+import fs from 'fs';
 import express from 'express';
 import cors from 'cors';
 import webpack from 'webpack';
 import webpackConfig from './../webpack.config'
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from "webpack-hot-middleware";
-const compiler = webpack(webpackConfig);
-
-import { simulateActivity } from './simulateActivity';
-
-import {
-    channels,
-} from './db/Channel';
-
-import {
-    users
-} from './db/User';
-
 import socketIO from 'socket.io';
 
-import {
-    OFFLINE,
-    ONLINE,
-    AWAY
-} from './../src/actions'
-
-import { getDefaultState } from './getDefaultState'
-import { initializeDB } from './db/initializeDB';
-
-import {
-    chance
-} from './../src/utility';
+import {simulateActivity} from './simulateActivity';
+import {channels} from './db/Channel';
+import {users} from './db/User';
+import {OFFLINE, ONLINE, AWAY} from './../src/actions'
+import {getDefaultState} from './getDefaultState'
+import {initializeDB} from './db/initializeDB';
+import {chance} from './../src/utility';
 
 let app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
+const compiler = webpack(webpackConfig);
 
 app.use(cors());
 app.use(webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath,
 }));
-
 app.use(webpackHotMiddleware(compiler, {
     'log': false,
     'path': '/__webpack_hmr',
@@ -99,7 +83,6 @@ app.use('/status/:id/:status',({params:{id,status}},res)=>{
 
 export const createMessage = ({userID,channelID,messageID,input}) =>{
     const channel = channels.find(channel=>channel.id === channelID);
-
     const message = {
         id:messageID,
         content:{
@@ -107,23 +90,26 @@ export const createMessage = ({userID,channelID,messageID,input}) =>{
         },
         owner:userID
     };
-
     channel.messages.push(message);
     io.emit("NEW_MESSAGE",{channelID:channel.id, ...message});
 }
 
 app.use('/input/submit/:userID/:channelID/:messageID/:input',({params:{userID,channelID,messageID,input}},res)=>{
     const user = users.find(user=>user.id === userID);
-
     if (!user) {
         return res.status(404).send();
     }
-
     createMessage({userID,channelID,messageID,input});
     res.status(300).send();
 });
 
-app.use(express.static('public'));
+app.use('/', (req, res) => {
+    const state = getDefaultState(currentUser);
+    fs.readFile('./public/index.html', "utf-8", (err, html) => {
+        html = html.replace('<%= defaultState %>', JSON.stringify(state));
+        res.send(html);
+    });
+});
 
 const port = 9090;
 
