@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Message from './Message';
 
 function mapStateToProps(state) {
-  const activeChannel = state.channels.find(channel => channel.id === state.activeChannel);
+  const {name: channelName, messages} = state.channels.find(channel => channel.id === state.activeChannel);
   return {
-    channelName: activeChannel.name,
-    messages: activeChannel.messages.map(m => ({...m, ownerName: state.userInfo.find(({id}) => id === m.owner).name})),
+    channelName,
+    messages,
+    status: state.currentUser.status
   };
 }
 
-const ChannelContent = ({channelName, messages, owners}) => {
-  console.log(owners)
+const ChannelContent = ({channelName, messages, status}) => {
   return (
     <div>
       <h4>Channel: {channelName}</h4>
-      {messages.map(message => <div key={message.id}><span>{message.ownerName}</span>: {message.content.text}</div>)}
-      <input type="text" placeholder="Say something" /><button>Submit</button>
+      {status === 'OFFLINE' ? <h5>Contacts in the channel will see you as offline.</h5> : null}
+      {messages.map(message => <Message key={message.id} {...message} />)}
     </div>
   );
 }

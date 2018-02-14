@@ -106,7 +106,7 @@ app.use('/input/submit/:userID/:channelID/:messageID/:input',({params:{userID,ch
 app.use('/', (req, res) => {
     const state = getDefaultState(currentUser);
     fs.readFile('./public/index.html', "utf-8", (err, html) => {
-        html = html.replace('<%= defaultState %>', JSON.stringify(state));
+        html = html.replace('<%= preloadedState %>', JSON.stringify(state));
         res.send(html);
     });
 });

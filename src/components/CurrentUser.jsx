@@ -10,15 +10,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleChangeStatus: (event) => dispatch({type: 'STATUS_CHANGE', value: event.target.value})
+    changeStatus: (event) => dispatch({type: 'STATUS_CHANGE', value: event.target.value})
   };
 }
 
-const CurrentUser = ({name, status, handleChangeStatus}) => {
+const CurrentUser = ({name, status, changeStatus}) => {
   return (
     <div>
-      Hi, {name}!
-      <select value={status} onChange={handleChangeStatus} >
+      <h3>Hi, {name}!</h3>
+      <select value={status} onChange={changeStatus} className='form-control' >
         <option value="ONLINE">Online</option>
         <option value="OFFLINE">Offline</option>
         <option value="AWAY">Away</option>
