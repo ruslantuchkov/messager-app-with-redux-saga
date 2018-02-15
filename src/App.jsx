@@ -7,7 +7,7 @@ import ChannelTextInput from './components/ChannelTextInput';
 
 const App = () => {
   return (
-    <div>
+    <div className='container'>
       <nav className="navbar navbar-light bg-light">
         <div className="container-fluid">
           <div className='navbar-header'>
@@ -16,14 +16,14 @@ const App = () => {
         </div>
       </nav>
       <div className="row">
-        <div className="col-xs-3">
+        <div className="col-3">
           <ChannelList />
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <ChannelContent />
           <ChannelTextInput />
         </div>
-        <div className="col-xs-3">
+        <div className="col-3">
           <CurrentUser />
           <ContactList />
         </div>
