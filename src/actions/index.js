@@ -4,6 +4,7 @@ export const ONLINE = `ONLINE`;
 export const OFFLINE = `OFFLINE`;
 export const AWAY = `AWAY`;
 export const FETCHED =`FETCHED`;
+export const NOT_FETCHED = `NOT_FETCHED`;
 
 export const submitChannelInputText = (channel, value) => (dispatch, getState) => {
   const {currentUser} = getState();

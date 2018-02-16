@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 function mapStateToProps(state, {owner: ownerId, content}) {
+  const user = state.userInfo.find(({id}) => id === ownerId);
   return {
-    ownerName: state.userInfo.find(({id}) => id === ownerId).name,
+    ownerName: user ? user.name : '[...]',
     text: content.text
   };
 }
