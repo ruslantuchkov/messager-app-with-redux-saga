@@ -3,7 +3,7 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 
 import {channelSelector} from '../selectors';
 
-function* fetchChannel({id}) {
+function* fetchChannel({payload: {id}}) {
   const channel = yield select(channelSelector(id));
   if (channel && channel.fetchStatus === 'FETCHED') return;
   const response = yield call(fetch, `http://localhost:9090/channel/${id}`);
