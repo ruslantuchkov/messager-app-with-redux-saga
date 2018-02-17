@@ -1,6 +1,6 @@
-export const activeChannel = function(state = null, {type, id}) {
+export const activeChannel = function(state = null, {type, payload}) {
   if (type === 'SET_ACTIVE_CHANNEL' ) {
-    return id;
+    return payload.id;
   }
   return state;
 }

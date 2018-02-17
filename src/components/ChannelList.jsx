@@ -4,19 +4,20 @@ import { connect } from 'react-redux';
 function mapStateToProps(state) {
   return {
     channels: state.channels,
-    activeChannel: state.activeChannel
+    activeChannel: state.activeChannel,
+    unreadedChannels: state.unreadedChannels
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     setActiveChannel(id) {
-      dispatch({type: 'SET_ACTIVE_CHANNEL', id})
+      dispatch({type: 'SET_ACTIVE_CHANNEL', payload: {id}})
     }
   };
 }
 
-const ChannelList = ({channels, activeChannel, setActiveChannel}) => {
+const ChannelList = ({channels, activeChannel, setActiveChannel, unreadedChannels}) => {
   return (
     <div className='container'>
       <h3>Channels</h3>
@@ -28,6 +29,7 @@ const ChannelList = ({channels, activeChannel, setActiveChannel}) => {
             onClick={() => setActiveChannel(channel.id)}
           >
             {channel.name}
+            {unreadedChannels[channel.id] > 0 ? <p>Unreaded messages: {unreadedChannels[channel.id]}</p> : null}
           </a>
         ))}
       </div>

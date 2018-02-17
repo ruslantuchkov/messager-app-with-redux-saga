@@ -14,6 +14,9 @@ export default function (defaultState={}) {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(reducer, defaultState, composeEnhancers(applyMiddleware(thunk, sagaMiddleware)));
   runSagas(sagaMiddleware, sagas);
-  socket.on('NEW_MESSAGE', (payload) => store.dispatch({type: 'RECEIVE_MESSAGE', payload}))
+  socket.on('NEW_MESSAGE', (payload) => {
+    payload.activeChannel = store.getState().activeChannel;
+    store.dispatch({type: 'RECEIVE_MESSAGE', payload});
+  })
   return store;
 }

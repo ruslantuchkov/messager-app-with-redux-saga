@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import {call, takeLatest, select} from 'redux-saga/effects';
 import {currentUserSelector} from '../selectors';
 
-function* putActiveChannel({id}) {
+function* putActiveChannel({payload: {id}}) {
   const currentUser = yield select(currentUserSelector);
   yield call(fetch, `http://localhost:9090/user/activeChannel/${currentUser.id}/${id}`);
 }

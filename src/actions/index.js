@@ -25,7 +25,7 @@ export const openContactChannel = (userId) => (dispatch, getState) => {
   const {name} = userInfo.find(({id}) => id === userId);
   const channel = channels.find(({participants}) => participants.length === 2 && participants.includes(userId));
   if (channel) {
-    dispatch({type: 'SET_ACTIVE_CHANNEL', id: channel.id});
+    dispatch({type: 'SET_ACTIVE_CHANNEL', payload: {id: channel.id}});
   } else {
     const channelId = chance.guid();
     dispatch({
@@ -38,6 +38,6 @@ export const openContactChannel = (userId) => (dispatch, getState) => {
         fetchStatus: 'NOT_FETCHED'
       }
     })
-    dispatch({type: 'SET_ACTIVE_CHANNEL', id: channelId});
+    dispatch({type: 'SET_ACTIVE_CHANNEL', payload: {id: channelId}});
   }
 }
