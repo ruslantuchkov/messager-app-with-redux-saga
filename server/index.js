@@ -103,6 +103,8 @@ app.use('/input/submit/:userID/:channelID/:messageID/:input',({params:{userID,ch
     res.status(300).send();
 });
 
+
+
 app.use('/', (req, res) => {
     const state = getDefaultState(currentUser);
     fs.readFile('./public/index.html', "utf-8", (err, html) => {

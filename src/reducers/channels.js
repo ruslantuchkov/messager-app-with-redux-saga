@@ -61,9 +61,9 @@ export const channels = (state = null, {type, payload}) => {
             id: payload.id,
             content: payload.content,
             owner: payload.owner
-          }],
+          }]
+        },
         ...state.slice(idx+1)
-        }
       ]
     }
   }
