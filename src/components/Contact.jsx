@@ -2,18 +2,21 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Chance from 'chance';
 
+import {openContactChannel} from '../actions';
+
 function mapStateToProps(state, {id}) {
   const {name, status} = state.userInfo.find(({id: userId}) => userId === id);
   return {
     name,
-    status
+    status,
+
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     openChannel(id) {
-      dispatch({type: 'SET_ACTIVE_CHANNEL', id})
+      dispatch(openContactChannel(id));
     }
   }
 }

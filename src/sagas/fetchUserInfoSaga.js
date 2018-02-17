@@ -8,7 +8,7 @@ function* fetchUserInfo(id) {
   yield put({type: 'SET_USER_INFO', user});
 }
 
-function* fetchUsersInfo({newChannel: {participants}}) {
+function* fetchUsersInfo({payload: {newChannel: {participants}}}) {
   const userInfo = yield select(userInfoSelector);
   const userIds = participants
     .filter(participant => !userInfo.some(({id}) => id === participant));

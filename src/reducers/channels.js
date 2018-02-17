@@ -1,14 +1,14 @@
-export const channels = (state = null, {type, value, channel, newChannel, messageId, date, owner}) => {
+export const channels = (state = null, {type, payload}) => {
   if (type === 'UPDATE_CHANNEL_INPUT_TEXT') {
-    const idx = state.findIndex(({id}) => id === channel);
+    const idx = state.findIndex(({id}) => id === payload.channel);
     return [
       ...state.slice(0, idx),
-      {...state[idx], currentUserText: value},
+      {...state[idx], currentUserText: payload.value},
       ...state.slice(idx+1)
     ]
   }
   if (type === 'SUBMIT_CHANNEL_INPUT_TEXT') {
-    const idx = state.findIndex(({id}) => id === channel);
+    const idx = state.findIndex(({id}) => id === payload.channel);
     return [
       ...state.slice(0, idx),
       {
@@ -17,10 +17,10 @@ export const channels = (state = null, {type, value, channel, newChannel, messag
         messages: [
           ...state[idx].messages, 
           {
-            id: messageId,
-            owner,
-            date,
-            content: {text: value}
+            id: payload.messageId,
+            owner: payload.owner,
+            date: payload.date,
+            content: {text: payload.value}
           }
         ]
       },
@@ -28,11 +28,24 @@ export const channels = (state = null, {type, value, channel, newChannel, messag
     ]
   }
   if (type === 'SET_CHANNEL_INFO') {
-    const idx = state.findIndex(({id}) => id === newChannel.id);
+    const idx = state.findIndex(({id}) => id === payload.newChannel.id);
     return [
       ...state.slice(0, idx),
-      {...newChannel},
+      {...payload.newChannel},
       ...state.slice(idx+1)
+    ]
+  }
+
+  if (type === 'SET_NEW_CHANNEL') {
+    return [
+      ...state, 
+      {
+        id: payload.id,
+        name: payload.name,
+        messages: payload.messages,
+        participants: payload.participants,
+        fetchStatus: payload.fetchStatus
+      }
     ]
   }
   return state;

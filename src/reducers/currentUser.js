@@ -1,8 +1,8 @@
-export const currentUser = (state = null, {type, value}) => {
+export const currentUser = (state = null, {type, status}) => {
   if (type === 'STATUS_CHANGE') {
     return {
       ...state,
-      status: value
+      status
     }
   }
   return state;

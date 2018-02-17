@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 function mapStateToProps(state) {
   return {
     name: state.currentUser.name,
-    status: state.status
+    status: state.currentUser.status
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeStatus: (event) => dispatch({type: 'STATUS_CHANGE', value: event.target.value})
+    changeStatus: (event) => dispatch({type: 'STATUS_CHANGE', status: event.target.value})
   };
 }
 

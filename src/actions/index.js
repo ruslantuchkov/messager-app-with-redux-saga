@@ -10,10 +10,32 @@ export const submitChannelInputText = (channel, value) => (dispatch, getState) =
   const {currentUser} = getState();
   dispatch({
     type: 'SUBMIT_CHANNEL_INPUT_TEXT', 
-    messageId: chance.guid(),
-    channel,
-    date: new Date(),
-    value,
-    owner: currentUser.id
+    payload: {
+      messageId: chance.guid(),
+      channel,
+      date: new Date(),
+      value,
+      owner: currentUser.id
+    }
   })
+}
+
+export const openContactChannel = (userId) => (dispatch, getState) => {
+  const {channels, currentUser, userInfo} = getState();
+  const {name} = userInfo.find(({id}) => id === userId);
+  const channel = channels.find(({participants}) => participants.length === 2 && participants.includes(userId));
+  if (channel) {
+    dispatch({type: 'SET_ACTIVE_CHANNEL', id: channel.id});
+  } else {
+    dispatch({
+      type: 'SET_NEW_CHANNEL',
+      payload: {
+        id: chance.guid(),
+        name: `${currentUser.name}'s and ${name}'s Private Chat`,
+        messages: [],
+        participants: [currentUser.id, userId],
+        fetchStatus: 'NOT_FETCHED'
+      }
+    })
+  }
 }

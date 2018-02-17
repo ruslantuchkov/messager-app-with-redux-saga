@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateText(channel, value) {
-      dispatch({type: 'UPDATE_CHANNEL_INPUT_TEXT', value, channel})
+      dispatch({type: 'UPDATE_CHANNEL_INPUT_TEXT', payload: {value, channel}})
     },
     submitMessage(channel, value) {
       dispatch(submitChannelInputText(channel, value))

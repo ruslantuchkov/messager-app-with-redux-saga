@@ -9,7 +9,7 @@ function* fetchChannel({id}) {
   const response = yield call(fetch, `http://localhost:9090/channel/${id}`);
   const newChannel = yield response.json();
   newChannel.fetchStatus = 'FETCHED';
-  yield put({type: 'SET_CHANNEL_INFO', newChannel});
+  yield put({type: 'SET_CHANNEL_INFO', payload: {newChannel}});
 }
 
 export function* fetchChannelSaga () {
