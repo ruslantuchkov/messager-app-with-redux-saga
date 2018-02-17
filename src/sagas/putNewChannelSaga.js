@@ -6,7 +6,6 @@ function* putNewChannel({payload: {id, name, participants}}) {
   const channel = yield response.json();
   channel.fetchStatus = 'FETCHED';
   yield put({type: 'SET_CHANNEL_INFO', payload: {newChannel: channel}});
-  yield put({type: 'SET_ACTIVE_CHANNEL', id});
 }
 
 export function* putNewChannelSaga() {

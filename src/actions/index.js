@@ -27,15 +27,17 @@ export const openContactChannel = (userId) => (dispatch, getState) => {
   if (channel) {
     dispatch({type: 'SET_ACTIVE_CHANNEL', id: channel.id});
   } else {
+    const channelId = chance.guid();
     dispatch({
       type: 'SET_NEW_CHANNEL',
       payload: {
-        id: chance.guid(),
+        id: channelId,
         name: `${currentUser.name}'s and ${name}'s Private Chat`,
         messages: [],
         participants: [currentUser.id, userId],
         fetchStatus: 'NOT_FETCHED'
       }
     })
+    dispatch({type: 'SET_ACTIVE_CHANNEL', id: channelId});
   }
 }

@@ -48,5 +48,24 @@ export const channels = (state = null, {type, payload}) => {
       }
     ]
   }
+
+  if (type === 'RECEIVE_MESSAGE') {
+    const idx = state.findIndex(({id}) => id === payload.channelID);
+    const channel = state[idx];
+    if (channel && channel.fetchStatus === 'FETCHED' && !channel.messages.find(({id}) => id === payload.id)) {
+      return [
+        ...state.slice(0, idx),
+        {
+          ...channel, 
+          messages: [...channel.messages, {
+            id: payload.id,
+            content: payload.content,
+            owner: payload.owner
+          }],
+        ...state.slice(idx+1)
+        }
+      ]
+    }
+  }
   return state;
 }
