@@ -11,8 +11,8 @@ const socket = io('http://localhost:9090');
 export default function (defaultState={}) {
   const reducer = combineReducers(reducers);
   const sagaMiddleware = createSagaMiddleware();
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const store = createStore(reducer, defaultState, composeEnhancers(applyMiddleware(thunk, sagaMiddleware)));
+  // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const store = createStore(reducer, defaultState, compose(applyMiddleware(thunk, sagaMiddleware)));
   runSagas(sagaMiddleware, sagas);
   socket.on('NEW_MESSAGE', (payload) => {
     payload.activeChannel = store.getState().activeChannel;

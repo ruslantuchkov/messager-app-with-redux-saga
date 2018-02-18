@@ -9,7 +9,7 @@ const preloadedState = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;
 const store = getStore(preloadedState);
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store} >
     <App/>
   </Provider>, document.getElementById('AppContainer'));

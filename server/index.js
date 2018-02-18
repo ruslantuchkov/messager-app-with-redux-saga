@@ -7,6 +7,9 @@ import webpackConfig from './../webpack.config'
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from "webpack-hot-middleware";
 import socketIO from 'socket.io';
+import {renderToString} from 'react-dom/server';
+import {Provider} from 'react-redux';
+import React from 'react';
 
 import {simulateActivity} from './simulateActivity';
 import {channels} from './db/Channel';
@@ -15,6 +18,8 @@ import {OFFLINE, ONLINE, AWAY} from './../src/actions'
 import {getDefaultState} from './getDefaultState'
 import {initializeDB} from './db/initializeDB';
 import {chance} from './../src/utility';
+import App from '../src/App';
+import getStore from '../src/getStore';
 
 let app = express();
 const server = http.createServer(app);
@@ -106,8 +111,14 @@ app.use('/input/submit/:userID/:channelID/:messageID/:input',({params:{userID,ch
 app.use(express.static('public/css'));
 app.use('/', (req, res) => {
     const state = getDefaultState(currentUser);
+    const appRendered = renderToString(
+        <Provider store={getStore(state)} >
+            <App/>
+        </Provider>
+    );
     fs.readFile('./public/index.html', "utf-8", (err, html) => {
         html = html.replace('<%= preloadedState %>', JSON.stringify(state));
+        html = html.replace('<%= preloadedApplication %>', appRendered);
         res.send(html);
     });
 });

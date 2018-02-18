@@ -29,7 +29,18 @@ const ChannelList = ({channels, activeChannel, setActiveChannel, unreadedChannel
             onClick={() => setActiveChannel(channel.id)}
           >
             {channel.name}
-            {unreadedChannels[channel.id] > 0 ? <p>Unreaded messages: {unreadedChannels[channel.id]}</p> : null}
+            {unreadedChannels[channel.id] > 0 ? <div style={{
+              position: 'absolute',
+              border: '1px',
+              backgroundColor: 'blue',
+              color: 'white',
+              textAlign: 'center',
+              borderRadius: '50%',
+              width: '25px',
+              height: '25px',
+              top: 0,
+              right: 0
+            }}>{unreadedChannels[channel.id]}</div> : null}
           </a>
         ))}
       </div>
