@@ -5,7 +5,7 @@ import {channelSelector} from '../selectors';
 
 function* fetchChannel({payload: {id}}) {
   const channel = yield select(channelSelector(id));
-  if (channel && channel.fetchStatus === 'FETCHED') return;
+  if (channel && channel.fetchStatus !== 'NOT_FETCHED') return;
   const response = yield call(fetch, `http://localhost:9090/channel/${id}`);
   const newChannel = yield response.json();
   newChannel.fetchStatus = 'FETCHED';

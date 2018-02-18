@@ -29,13 +29,11 @@ export const openContactChannel = (userId) => (dispatch, getState) => {
   } else {
     const channelId = chance.guid();
     dispatch({
-      type: 'SET_NEW_CHANNEL',
+      type: 'REQUEST_CREATE_CHANNEL',
       payload: {
         id: channelId,
         name: `${currentUser.name}'s and ${name}'s Private Chat`,
-        messages: [],
         participants: [currentUser.id, userId],
-        fetchStatus: 'NOT_FETCHED'
       }
     })
     dispatch({type: 'SET_ACTIVE_CHANNEL', payload: {id: channelId}});

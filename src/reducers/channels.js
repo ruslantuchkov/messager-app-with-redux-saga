@@ -36,15 +36,15 @@ export const channels = (state = null, {type, payload}) => {
     ]
   }
 
-  if (type === 'SET_NEW_CHANNEL') {
+  if (type === 'REQUEST_CREATE_CHANNEL') {
     return [
       ...state, 
       {
         id: payload.id,
         name: payload.name,
-        messages: payload.messages,
+        messages: [],
         participants: payload.participants,
-        fetchStatus: payload.fetchStatus
+        fetchStatus: 'FETCHING'
       }
     ]
   }
@@ -66,6 +66,13 @@ export const channels = (state = null, {type, payload}) => {
         ...state.slice(idx+1)
       ]
     }
+  }
+  if (type === 'REJECT_CHANNEL_CREATION') {
+    const idx = state.findIndex(({id}) => id === payload.id);
+    return [
+      ...state.slice(0, idx),
+      ...state.slice(idx+1)
+    ]
   }
   return state;
 }
